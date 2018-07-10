@@ -1,0 +1,10 @@
+.idea
+node_modules
+*.log
+*.log.*
+.webpack
+dist/*
+.vscode
+.DS_Store
+/nbproject/*
+bkp.*

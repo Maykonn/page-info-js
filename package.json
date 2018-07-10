@@ -1,0 +1,32 @@
+{
+  "name": "page-info-js",
+  "dependencies": {
+    "es6-shim": "^0.35.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "clean-webpack-plugin": "^0.1.17",
+    "compression-webpack-plugin": "^1.1.3",
+    "express": "^4.16.2",
+    "json-loader": "^0.5.7",
+    "path": "^0.12.7",
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.9.2",
+    "webpack-dev-middleware": "^2.0.4",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-merge": "^4.1.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.config.js --open",
+    "build": "webpack --config webpack.prod.config.js --progress",
+    "test": "karma start karma.conf.js",
+    "express": "PORT=8080 node example/server.js",
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "main": "dist/Pageinfo.js",
+  "license": "MIT",
+  "version": "0.1.0"
+}
