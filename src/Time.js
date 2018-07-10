@@ -1,7 +1,8 @@
 export default class Time {
 
   constructor() {
-    this._startTime = Date.now().getTime();
+    const now = new Date();
+    this._startTime = now.getTime();
     this._DOMLoadedTime = 0; // DOM not loaded yet
     this._elapsedTimeToLoadTheDOM = 0;  // DOM not loaded yet
   }
@@ -49,7 +50,8 @@ export default class Time {
   }
 
   _elapsedTimeCounter(clientCallback) {
-    this._DOMLoadedTime = Date.now().getTime();
+    const now = new Date();
+    this._DOMLoadedTime = now.getTime();
     this._elapsedTimeToLoadTheDOM = this._DOMLoadedTime - this._startTime;
     clientCallback();
   }

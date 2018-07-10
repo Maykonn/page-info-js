@@ -11,7 +11,7 @@ require("es6-shim");
 
 module.exports = {
   entry: {
-    'PageInfoJS': ['es6-shim', './index.js']
+    'PageInfo': ['es6-shim', './index.js']
   },
   output: {
     path: path.join(__dirname, '/dist'),
