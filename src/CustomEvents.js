@@ -1,4 +1,5 @@
 export default class CustomEvents {
+
   constructor() {
     this._Collection = new Map();
   }
@@ -9,9 +10,9 @@ export default class CustomEvents {
 
   set(name, func) {
     if (typeof func === 'function') {
-      this._Collection.set(name, func);
-      return;
+      return this._Collection.set(name, func);
     }
+
     throw new Error('Function ' + name + ' must be a function');
   }
 
