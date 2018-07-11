@@ -18,11 +18,13 @@
   <img src="https://vignette.wikia.nocookie.net/googology/images/b/bd/Test.jpg/revision/latest?cb=20180119233937">
 </div>
 <script type="text/javascript">
-  PageInfoJS.Time.whenDOMIsLoadedDo(function () {
+  PageInfoJS.CustomEvents.set('RegisterPageLoadingTime', function () {
     console.log('StartTime: ' + PageInfoJS.Time.getStartTime());
     console.log('DOMLoadedTime: ' + PageInfoJS.Time.getDOMLoadedTime());
     console.log('ElapsedTimeToLoadTheDOM: ' + PageInfoJS.Time.getElapsedTimeToLoadTheDOM());
   });
+
+  PageInfoJS.Time.whenDOMIsLoadedDo(PageInfoJS.CustomEvents.get('RegisterPageLoadingTime'));
 </script>
 </body>
 </html>
