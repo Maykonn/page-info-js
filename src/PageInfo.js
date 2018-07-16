@@ -1,11 +1,15 @@
 import InternalDOMEventsList from "./EventsList";
-import PageInfoTime from "./PageInfoTime";
+import Time from "./Time";
 import EventsCollection from "./EventsCollection";
 
-export default class PageInfoDOM {
+export default class PageInfo {
 
   constructor(clientCallbacks) {
-    this.Time = new PageInfoTime();
+    /**
+     * @type {PageInfoTime}
+     */
+    this.Time = new Time();
+
     new Promise((resolve) => {
       this._Events = new EventsCollection(clientCallbacks);
       this._elements = window.document.getElementsByTagName('*');
