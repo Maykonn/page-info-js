@@ -3,62 +3,73 @@ import InternalDOMEventsList from "./InternalDOMEventsList";
 export default class PageInfoDOM {
 
   constructor(CustomEvents) {
-    this._Events = CustomEvents;
+    new Promise((resolve) => {
+      this._Events = CustomEvents;
+      this._elements = window.document.getElementsByTagName('*');
+      this._elementsLength = this._elements.length;
+      resolve();
+    })
+      .then(() => {
+        this._loadedElementsLength = 0;
+        this._registerInternalEventForPercentageOfLoading();
+      });
+  }
 
-    this._registerInternalEventForPercentageOfLoading();
+  getElementsLength() {
+    return this._elementsLength;
+  }
+
+  getElementsLoadedLength() {
+    return this._loadedElementsLength;
   }
 
   _registerInternalEventForPercentageOfLoading() {
     let self = this;
-    let elements = window.document.getElementsByTagName('*');
 
-    let elementsTotal = elements.length;
-
-    function doneLoading() {
+    let doneLoading = () => {
       if (self._Events.has(InternalDOMEventsList.DOM.AllElementsLoaded)) {
-        self._Events.get(InternalDOMEventsList.DOM.AllElementsLoaded)();
+        self._Events.get(InternalDOMEventsList.DOM.AllElementsLoaded)(self);
       }
-    }
+    };
 
-    if (elementsTotal === 0) {
+    if (self._elementsLength === 0) {
       return doneLoading();
     }
 
-    let numberOfLoadedElements = 0;
-
-    function elementLoaded(element) {
-      numberOfLoadedElements += 1;
-
-      let percentageLoaded = ((100 / elementsTotal * numberOfLoadedElements) << 0) + '%';
+    let elementLoaded = (element) => {
+      self._loadedElementsLength += 1;
 
       if (self._Events.has(InternalDOMEventsList.DOM.ElementLoaded)) {
-        self._Events.get(InternalDOMEventsList.DOM.ElementLoaded)(element);
+        self._Events.get(InternalDOMEventsList.DOM.ElementLoaded)(element, self);
       }
 
       if (self._Events.has(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)) {
-        self._Events.get(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element);
+        const percentageLoaded = ((100 / self._elementsLength * self._loadedElementsLength) << 0);
+        self._Events.get(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element, self);
       }
 
-      if (elementsTotal === numberOfLoadedElements) {
+      if (self._elementsLength === self._loadedElementsLength) {
         return doneLoading();
       }
-    }
+    };
 
-    for (let i = elementsTotal; i--;) {
-      switch (elements[i].tagName) {
+    for (let i = self._elementsLength; i--;) {
+      let callback = () => {
+        return elementLoaded(self._elements[i]);
+      };
+
+      switch (self._elements[i].tagName) {
+        case 'BODY':
+          self._elements[i].onload = callback;
+          break;
         case 'IMG':
           let TempImage = new Image();
-          TempImage.onload = () => {
-            elementLoaded(elements[i]);
-          };
-          TempImage.onerror = () => {
-            elementLoaded(elements[i]);
-          };
-          TempImage.src = elements[i].src;
+          TempImage.onload = callback;
+          TempImage.onerror = callback;
+          TempImage.src = self._elements[i].src;
           break;
         default:
-          // TODO: verify a way to know when this element is really loaded
-          elementLoaded(elements[i]);
+          callback(self._elements[i]);
           break;
       }
     }
