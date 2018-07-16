@@ -1,19 +1,18 @@
 var myCallbacks = [];
-myCallbacks[PageInfoJS.InternalEventsList.DOM.ElementLoaded] = function (element, PageInfoJsDOM) {
-  console.log('Element loaded', element);
-  console.log('Loaded elements', PageInfoJsDOM.getElementsLoadedLength());
+myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageInfo) {
+  console.log('  >> Element loaded', element);
+  console.log('  >> Loaded elements', PageInfo.getElementsLoadedLength());
 };
 
-myCallbacks[PageInfoJS.InternalEventsList.DOM.ElementsLoadingPercentageIncremented] = function (percentage, element, PageInfoJsDOM) {
-  console.log('Percentage of page loading', percentage);
+myCallbacks[PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented] = function (percentage, element, PageInfo) {
+  console.log('  >> Percentage of page loading', percentage);
 };
 
-myCallbacks[PageInfoJS.InternalEventsList.DOM.AllElementsLoaded] = function (PageInfoJsDOM) {
-  console.log('Page completely loaded!');
+myCallbacks[PageInfoJS.EventsList.DOM.AllElementsLoaded] = function (PageInfo) {
+  console.log('Page completely loaded in (milliseconds)', PageInfo.Time.getElapsedTimeToLoadTheDOM());
+  console.log('Page completely loaded timestamp', PageInfo.Time.getDOMLoadedTime());
 };
 
-var PageInfoJsDOM = new PageInfoJS.DOM(
-  new PageInfoJS.CustomEvents(myCallbacks)
-);
-
-console.log('Number of elements in this page: ' + PageInfoJsDOM.getElementsLength());
+var PageInfo = new PageInfoJS.DOM(myCallbacks);
+console.log('Page load start timestamp', PageInfo.Time.getStartTime());
+console.log('Number of elements in this page: ' + PageInfo.getElementsLength());

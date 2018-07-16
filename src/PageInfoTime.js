@@ -1,10 +1,14 @@
-export default class Time {
+export default class PageInfoTime {
 
   constructor() {
     const now = new Date();
     this._startTime = now.getTime();
     this._DOMLoadedTime = 0; // DOM not loaded yet
     this._elapsedTimeToLoadTheDOM = 0;  // DOM not loaded yet
+
+    window.document.addEventListener('DOMContentLoaded', () => {
+      this._elapsedTimeCounter();
+    }, false);
   }
 
   /**
@@ -34,25 +38,9 @@ export default class Time {
     return this._elapsedTimeToLoadTheDOM;
   }
 
-  /**
-   * The client callback that will be called when DOM loads.
-   *
-   * @param {function} clientCallback
-   */
-  whenDOMIsLoadedDo(clientCallback) {
-    if (typeof clientCallback !== 'function') {
-      console.error('PageInfoJS: invalid callback for Time.whenDOMIsLoadedDo(function)');
-    }
-
-    window.document.addEventListener('DOMContentLoaded', () => {
-      this._elapsedTimeCounter(clientCallback);
-    }, false);
-  }
-
-  _elapsedTimeCounter(clientCallback) {
+  _elapsedTimeCounter() {
     const now = new Date();
     this._DOMLoadedTime = now.getTime();
     this._elapsedTimeToLoadTheDOM = this._DOMLoadedTime - this._startTime;
-    clientCallback();
   }
 };

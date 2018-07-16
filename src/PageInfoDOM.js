@@ -1,17 +1,20 @@
-import InternalDOMEventsList from "./InternalDOMEventsList";
+import InternalDOMEventsList from "./EventsList";
+import PageInfoTime from "./PageInfoTime";
+import EventsCollection from "./EventsCollection";
 
 export default class PageInfoDOM {
 
-  constructor(CustomEvents) {
+  constructor(clientCallbacks) {
+    this.Time = new PageInfoTime();
     new Promise((resolve) => {
-      this._Events = CustomEvents;
+      this._Events = new EventsCollection(clientCallbacks);
       this._elements = window.document.getElementsByTagName('*');
       this._elementsLength = this._elements.length;
       resolve();
     })
       .then(() => {
         this._loadedElementsLength = 0;
-        this._registerInternalEventForPercentageOfLoading();
+        this._do();
       });
   }
 
@@ -23,7 +26,7 @@ export default class PageInfoDOM {
     return this._loadedElementsLength;
   }
 
-  _registerInternalEventForPercentageOfLoading() {
+  _do() {
     let self = this;
 
     let doneLoading = () => {

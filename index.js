@@ -7,19 +7,13 @@
 
 'use strict';
 
-import PageInfoTime from "./src/PageInfoTime";
-import CustomEvents from "./src/CustomEvents";
 import PageInfoDOM from "./src/PageInfoDOM";
-import InternalDOMEventsList from "./src/InternalDOMEventsList";
+import EventsList from "./src/EventsList";
 
 ((window) => {
 
   window.PageInfoJS = {};
-  window.PageInfoJS.InternalEventsList = InternalDOMEventsList;
-  window.PageInfoJS.CustomEvents = CustomEvents;
-  window.PageInfoJS.Time = PageInfoTime;
+  window.PageInfoJS.EventsList = EventsList;
   window.PageInfoJS.DOM = PageInfoDOM;
-
-  console.log('PageInfoJS', window.PageInfoJS);
 
 })(window, undefined);
