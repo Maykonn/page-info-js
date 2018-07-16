@@ -21,13 +21,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.json$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'json-loader',
-      },
-      {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -53,6 +48,5 @@ module.exports = {
       }
     }),
     new CleanWebpackPlugin(['dist']),
-    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]), //https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
   ]
 }
