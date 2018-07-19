@@ -12,7 +12,7 @@ var myCallbacks = [];
  */
 myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageInfo) {
   console.log('  >> Element loaded', element);
-  console.log('  >> Loaded elements', PageInfo.getElementsLoadedLength());
+  console.log('  >> Loaded elements', PageInfo.getLoadedElementsNumber());
 };
 
 /**
@@ -28,11 +28,11 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented] = fu
  * @param PageInfo {PageInfo}
  */
 myCallbacks[PageInfoJS.EventsList.DOM.AllElementsLoaded] = function (PageInfo) {
-  console.log('Page completely loaded in (milliseconds)', PageInfo.Time.getElapsedTimeToLoadTheDOM());
-  console.log('Page completely loaded timestamp', PageInfo.Time.getDOMLoadedTime());
+  console.log('Page completely loaded in (milliseconds)', PageInfo.Time.getElapsedTimeToLoadDOM());
+  console.log('Page completely loaded timestamp', PageInfo.Time.getDOMLoadedTimestamp());
 };
 
 
 var PageInfo = new PageInfoJS(myCallbacks);
-console.log('Page load start timestamp', PageInfo.Time.getStartTime());
-console.log('Number of elements in this page: ' + PageInfo.getElementsLength());
+console.log('Page load start timestamp', PageInfo.Time.getStartTimestamp());
+console.log('Number of elements in this page: ' + PageInfo.getElementsNumber());

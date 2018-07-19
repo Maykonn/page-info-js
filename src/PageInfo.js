@@ -13,24 +13,24 @@ export default class PageInfo {
     new Promise((resolve) => {
       this._Events = new EventsCollection(clientCallbacks);
       this._elements = window.document.getElementsByTagName('*');
-      this._elementsLength = this._elements.length;
+      this._elementsNumber = this._elements.length;
       resolve();
     })
       .then(() => {
-        this._loadedElementsLength = 0;
-        this._do();
+        this._loadedElementsNumber = 0;
+        this._analyzeDOM();
       });
   }
 
-  getElementsLength() {
-    return this._elementsLength;
+  getElementsNumber() {
+    return this._elementsNumber;
   }
 
-  getElementsLoadedLength() {
-    return this._loadedElementsLength;
+  getLoadedElementsNumber() {
+    return this._loadedElementsNumber;
   }
 
-  _do() {
+  _analyzeDOM() {
     let self = this;
 
     let doneLoading = () => {
@@ -39,28 +39,28 @@ export default class PageInfo {
       }
     };
 
-    if (self._elementsLength === 0) {
+    if (self._elementsNumber === 0) {
       return doneLoading();
     }
 
     let elementLoaded = (element) => {
-      self._loadedElementsLength += 1;
+      self._loadedElementsNumber += 1;
 
       if (self._Events.has(InternalDOMEventsList.DOM.ElementLoaded)) {
         self._Events.get(InternalDOMEventsList.DOM.ElementLoaded)(element, self);
       }
 
       if (self._Events.has(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)) {
-        const percentageLoaded = ((100 / self._elementsLength * self._loadedElementsLength) << 0);
+        const percentageLoaded = ((100 / self._elementsNumber * self._loadedElementsNumber) << 0);
         self._Events.get(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element, self);
       }
 
-      if (self._elementsLength === self._loadedElementsLength) {
+      if (self._elementsNumber === self._loadedElementsNumber) {
         return doneLoading();
       }
     };
 
-    for (let i = self._elementsLength; i--;) {
+    for (let i = self._elementsNumber; i--;) {
       let callback = () => {
         return elementLoaded(self._elements[i]);
       };

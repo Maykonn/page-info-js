@@ -2,12 +2,12 @@ export default class PageInfoTime {
 
   constructor() {
     const now = new Date();
-    this._startTime = now.getTime();
-    this._DOMLoadedTime = 0; // DOM not loaded yet
-    this._elapsedTimeToLoadTheDOM = 0;  // DOM not loaded yet
+    this._startTimestamp = now.getTime();
+    this._DOMLoadedTimestamp = 0; // DOM not loaded yet
+    this._elapsedTimeToLoadDOM = 0;  // DOM not loaded yet
 
     window.document.addEventListener('DOMContentLoaded', () => {
-      this._elapsedTimeCounter();
+      this._calculateElapsedTimeToLoadDOM();
     }, false);
   }
 
@@ -16,8 +16,8 @@ export default class PageInfoTime {
    *
    * @returns {number} The number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and now.
    */
-  getStartTime() {
-    return this._startTime;
+  getStartTimestamp() {
+    return this._startTimestamp;
   }
 
   /**
@@ -25,8 +25,8 @@ export default class PageInfoTime {
    *
    * @returns {number} The number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the DOM Loaded date.
    */
-  getDOMLoadedTime() {
-    return this._DOMLoadedTime;
+  getDOMLoadedTimestamp() {
+    return this._DOMLoadedTimestamp;
   }
 
   /**
@@ -34,13 +34,13 @@ export default class PageInfoTime {
    *
    * @returns {number}
    */
-  getElapsedTimeToLoadTheDOM() {
-    return this._elapsedTimeToLoadTheDOM;
+  getElapsedTimeToLoadDOM() {
+    return this._elapsedTimeToLoadDOM;
   }
 
-  _elapsedTimeCounter() {
+  _calculateElapsedTimeToLoadDOM() {
     const now = new Date();
-    this._DOMLoadedTime = now.getTime();
-    this._elapsedTimeToLoadTheDOM = this._DOMLoadedTime - this._startTime;
+    this._DOMLoadedTimestamp = now.getTime();
+    this._elapsedTimeToLoadDOM = this._DOMLoadedTimestamp - this._startTimestamp;
   }
 };
