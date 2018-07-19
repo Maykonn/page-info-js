@@ -21,12 +21,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js --open",
-    "build": "webpack --config webpack.prod.config.js --progress",
-    "test": "karma start karma.conf.js",
-    "express": "PORT=8080 node example/server.js",
-    "docs": "jsdoc -c jsdoc.json"
+    "build": "webpack --config webpack.prod.config.js --progress"
   },
-  "main": "dist/Pageinfo.js",
   "license": "MIT",
-  "version": "0.1.0"
+  "version": "1.0.0"
 }
