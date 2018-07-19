@@ -4,10 +4,10 @@ With PageInfoJS you can gather information about time to load the DOM as well cr
 when:
 
 - Elements are loaded, 
-- DOM loading percentage change,
+- DOM loading percentage changes,
 - DOM is completely loaded.
 
-You can work information about time too:
+You can work with information about time too:
 
 - DOM loading start timestamp,
 - Elapsed time in milliseconds to completely load the DOM,
@@ -17,13 +17,34 @@ You can work information about time too:
 
 ## How to use
 
-Include the PageInfo.js script on `<head>` element and you can work with the PageInfoJS at the end of your html, after
+Include the `/dist/PageInfo.js` or `/dist/PageInfo.gz` script on `<head>` element and you can work with the PageInfoJS at the end of your html, after
 close the `</body>` tag, or include your js script there.  
-See the files on /example directory for a simples real world example.
+
+**See the files on /example directory for a simple real world example.**
+
+## Compiling the code
+Clone this repo and you can use npm and webpack to compile the code, install the requirements: 
+
+```
+git clone https://github.com/Maykonn/PageInfoJS.git
+npm install
+``` 
+
+In your dev environment you can run (will compile the code and open the example app at localhost:8080/):
+```
+npm run start
+```
+
+Build the code to production at `/dist` directory (minify, uglify, remove comments, logs, etc):
+```
+npm run build
+```
+
+The `npm run build` command will generate two file at /dist directory, PageInfo.gz and PageInfo.js. 
 
 ## Working with custom callbacks
 
-Using custom callbacks for PageInfoJS events you can declare an array of callbacks:
+To use the custom callbacks for PageInfoJS events you can declare an array of callbacks:
 ```JS
 var myCallbacks = [];
 ```
@@ -44,6 +65,12 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageIn
 - PageInfoJS.EventsList.DOM.ElementLoaded
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
+
+And pass the callbacks array for the PageInfoJS instance:
+
+```JS
+var PageInfo = new PageInfoJS(myCallbacks);
+```
 
 ## Working with timestamps
 
