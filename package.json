@@ -1,6 +1,21 @@
 {
   "name": "page-info-js",
   "description": "Gather information about the DOM, loading time, page errors, and more with javascript.",
+  "keywords": [
+    "javascript",
+    "analytics",
+    "dom",
+    "loading",
+    "time",
+    "errors",
+    "callback",
+    "pageinfojs",
+    "pageinfo",
+    "frontend",
+    "backend",
+    "js",
+    "gz"
+  ],
   "author": "Maykonn Welington Candido <maykonn@outlook.com> (https://github.com/Maykonn)",
   "dependencies": {
     "es6-shim": "^0.35.3"
