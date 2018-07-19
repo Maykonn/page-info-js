@@ -12,7 +12,7 @@ export default class PageInfoTime {
   }
 
   /**
-   * Returns the start time of the script execution.
+   * Returns the script start time
    *
    * @returns {number} The number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and now.
    */
@@ -21,7 +21,7 @@ export default class PageInfoTime {
   }
 
   /**
-   * Returns the time when DOM was loaded.
+   * Returns the timestamp when DOM loading finished.
    *
    * @returns {number} The number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the DOM Loaded date.
    */
@@ -30,7 +30,7 @@ export default class PageInfoTime {
   }
 
   /**
-   * Returns the milliseconds of execution to load the DOM.
+   * Returns the milliseconds of execution needed to load the DOM.
    *
    * @returns {number}
    */

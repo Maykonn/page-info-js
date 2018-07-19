@@ -22,10 +22,20 @@ export default class PageInfo {
       });
   }
 
+  /**
+   * Number of DOM elements on page
+   *
+   * @returns {Number}
+   */
   getElementsNumber() {
     return this._elementsNumber;
   }
 
+  /**
+   * Number of DOM elements loaded
+   *
+   * @returns {number}
+   */
   getLoadedElementsNumber() {
     return this._loadedElementsNumber;
   }
@@ -55,7 +65,7 @@ export default class PageInfo {
         self._Events.get(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element, self);
       }
 
-      if (self._elementsNumber === self._loadedElementsNumber) {
+      if (self._loadedElementsNumber === self._elementsNumber) {
         return doneLoading();
       }
     };
