@@ -18,12 +18,15 @@ You can work with information about time too:
 ## How to use
 
 Include the `/dist/PageInfo.js` or `/dist/PageInfo.gz` script on `<head>` element and you can work with the PageInfoJS at the end of your html, after
-close the `</body>` tag, or include your js script there.  
+close the `</body>` tag, or include your js script there.
+
+**You can find the compiled code on [package releases list](https://github.com/Maykonn/PageInfoJS/releases).**
 
 **See the files on /example directory for a simple real world example.**
 
 ## Compiling the code
-Clone this repo and you can use npm and webpack to compile the code, install the requirements: 
+Clone this repo and you can use npm and webpack to compile the code.
+Install the requirements:   
 
 ```
 git clone https://github.com/Maykonn/PageInfoJS.git
