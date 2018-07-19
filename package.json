@@ -36,11 +36,11 @@
     "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.1"
   },
-  "main": "index.js",
+  "main": "./dist/PageInfo.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js --open",
     "build": "webpack --config webpack.prod.config.js --progress"
   },
   "license": "MIT",
-  "version": "1.0.1"
+  "version": "1.0.3"
 }

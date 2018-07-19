@@ -15,6 +15,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].js',
+    library: "page-info-js",
+    libraryTarget: "umd",
   },
   devtool: 'source-map',
   module: {
