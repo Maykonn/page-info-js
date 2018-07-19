@@ -42,9 +42,8 @@ module.exports = merge(common, {
       comments: false,
       exclude: [/\.min\.js$/gi] // skip pre-minified libs
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]), //https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
     new CompressionPlugin({
-      asset: "GazetaDoPovoSDK.gz",
+      asset: "PageInfo.gz",
       threshold: 0
     })
   ]
