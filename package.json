@@ -1,5 +1,7 @@
 {
   "name": "page-info-js",
+  "description": "Gather information about the DOM, loading time, page errors, and more with javascript.",
+  "author": "Maykonn Welington Candido <maykonn@outlook.com> (https://github.com/Maykonn)",
   "dependencies": {
     "es6-shim": "^0.35.3"
   },
@@ -19,6 +21,7 @@
     "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.1"
   },
+  "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js --open",
     "build": "webpack --config webpack.prod.config.js --progress"
