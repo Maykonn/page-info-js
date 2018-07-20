@@ -49,27 +49,6 @@ close the `</body>` tag, or include your js script there.
 
 **See the files on /example directory for a simple real world example.**
 
-## Compiling the code
-Clone this repo and you can use npm and webpack to compile the code.
-Install the requirements:   
-
-```
-git clone https://github.com/Maykonn/PageInfoJS.git
-npm install
-``` 
-
-In your dev environment you can run (will compile the code and open the example app at localhost:8080/):
-```
-npm run start
-```
-
-Build the code to production at `/dist` directory (minify, uglify, remove comments, logs, etc):
-```
-npm run build
-```
-
-The `npm run build` command will generate two file at /dist directory, PageInfo.gz and PageInfo.js. 
-
 ## Working with custom callbacks
 
 To use the custom callbacks for PageInfoJS events you can declare an array of callbacks:
@@ -120,3 +99,31 @@ Milliseconds expended to load the DOM:
 var time = PageInfo.Time.getElapsedTimeToLoadDOM();  
 console.log('PageInfoJS DOM loaded in (milliseconds):', time);
 ```
+
+## Compiling the code
+Clone this repo and you can use npm and webpack to compile the code.
+Install the requirements:   
+
+```
+git clone https://github.com/Maykonn/PageInfoJS.git
+npm install
+``` 
+
+In your dev environment you can run (will compile the code and open the example app at localhost:8080/):
+```
+npm run start
+```
+
+Build the code to production at `/dist` directory (minify, uglify, remove comments, logs, etc):
+```
+npm run build
+```
+
+The `npm run build` command will generate two file at /dist directory, PageInfo.gz and PageInfo.js.
+
+## Contributing
+
+You can contribute to PageInfoJS cloning this repository from github [clicking here](https://github.com/Maykonn/PageInfoJS.git).
+So, you just need to create a new branch using a name related to the new functionality which you'll create.   
+And after finish your code, you just need to create a pull request which will be revised, merged to master(if the code 
+doesn't break the lib) branch and published a new release of PageInfoJS. 
