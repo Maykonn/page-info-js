@@ -1,7 +1,6 @@
 # PageInfoJS
 
-With PageInfoJS you can gather information about time to load the DOM as well create custom callbacks for events
-when:
+With PageInfoJS you can gather information about time to load the DOM as well create custom callbacks for events when:
 
 - Elements are loaded, 
 - DOM loading percentage changes,
@@ -16,6 +15,32 @@ You can work with information about time too:
 **A real world example for PageInfoJS custom callbacks and time info is to send information about your frontend apps for your analytics backend servers.**
 
 ## How to use
+
+### With npm
+
+Although you can use as a Node module PageInfo works with DOM, so you can use the package in your frontend app with your webpack configuration to compile the 
+PageInfoJS code together your app code. To install the module type:
+
+`npm instal -S page-info-js`
+
+Importing the package with ES6:
+```JS
+import 'page-info-js';
+```
+
+Or import with `require`:
+```JS
+require('page-info-js');
+```
+
+And thus you can instantiate the PageInfoJS:
+```JS
+const PageInfo = new PageInfoJS([]);
+```
+
+*OBS: the array on constructor is an array of custom callbacks, learn more about it [clicking here](#working-with-custom-callbacks).*
+
+### As a `<script>` tag included in your html page 
 
 Include the `/dist/PageInfo.js` or `/dist/PageInfo.gz` script on `<head>` element and you can work with the PageInfoJS at the end of your html, after
 close the `</body>` tag, or include your js script there.
