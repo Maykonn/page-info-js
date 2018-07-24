@@ -1,16 +1,17 @@
 # PageInfoJS
 
-With PageInfoJS you can gather information about time to load the DOM as well create custom callbacks for events when:
+With PageInfoJS you can gather information about time to load the Document DOM as well create custom callbacks for events when:
 
 - Elements are loaded, 
+- A Javascript error detected,
 - DOM loading percentage changes,
-- DOM is completely loaded.
+- Document is completely loaded(or interactive, loading, etc).
 
 You can work with information about time too:
 
 - DOM loading start timestamp,
-- Elapsed time in milliseconds to completely load the DOM,
-- Timestamp of the moment the DOM loading ends.
+- Get the elapsed time in milliseconds when an event occur,
+- Timestamp of the moment that an event occur.
 
 **A real world example for PageInfoJS custom callbacks and time info is to send information about your frontend apps for your analytics backend servers.**
 
@@ -68,7 +69,9 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageIn
 };
 ```
 
-**Events List:**
+### Events List:
+You can implement custom callbacks for the bellow events list:
+
 - PageInfoJS.EventsList.DOM.ElementLoaded
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
@@ -86,7 +89,7 @@ And pass the callbacks array for the PageInfoJS instance:
 var PageInfo = new PageInfoJS(myCallbacks);
 ```
 
-## Working with timestamps
+## Working with Time
 
 Getting the loading start timestamp:
 
@@ -123,7 +126,7 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToInteractive] = fun
 
 ## Working with Errors
 
-PageInfoJS have a event triggered when an JS Error happen, you can use it as follow:
+PageInfoJS fire an event when a js error occur on page, you can use it as follow:
 ```JS
 /**
  * @param PageInfo {PageInfo}
@@ -131,6 +134,7 @@ PageInfoJS have a event triggered when an JS Error happen, you can use it as fol
  */
 myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
   console.log('Current error:', error);
+  console.log('At:', PageInfo.Time.getCurrentTimestamp());
 };
 ```
 
@@ -146,6 +150,10 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (Pag
   console.log('Document Errors', PageInfo.getAllErrors());
 };
 ```
+
+## Examples
+
+You can see an example on `/example` directory.
 
 ## Compiling the code
 Clone this repo and you can use npm and webpack to compile the code.
