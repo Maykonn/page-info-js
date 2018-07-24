@@ -28,11 +28,35 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented] = fu
  * @param PageInfo {PageInfo}
  */
 myCallbacks[PageInfoJS.EventsList.DOM.AllElementsLoaded] = function (PageInfo) {
-  console.log('Page completely loaded in (milliseconds)', PageInfo.Time.getElapsedTimeToLoadDOM());
-  console.log('Page completely loaded timestamp', PageInfo.Time.getDOMLoadedTimestamp());
+  console.log('Page completely loaded in (milliseconds)', PageInfo.Time.getElapsedTime());
+  console.log('Page loaded timestamp', PageInfo.Time.getCurrentTimestamp());
 };
 
+/**
+ * @param PageInfo {PageInfo}
+ * @param changedTo {string}
+ */
+myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (PageInfo, changedTo) {
+  console.log('Document ready state changed to ' + changedTo + ' after (milliseconds)', PageInfo.Time.getElapsedTime());
+};
+
+/**
+ * @param PageInfo {PageInfo}
+ */
+myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToComplete] = function (PageInfo) {
+  console.log('Document is COMPLETE now, elapsed time (milliseconds)', PageInfo.Time.getElapsedTime());
+};
+
+/**
+ * @param PageInfo {PageInfo}
+ */
+myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
+  console.log('Current error:', error);
+  if (PageInfo.hasErrors()) {
+    console.log('All errors: ', PageInfo.getAllErrors());
+  }
+};
 
 var PageInfo = new PageInfoJS(myCallbacks);
 console.log('Page load start timestamp', PageInfo.Time.getStartTimestamp());
-console.log('Number of elements in this page: ' + PageInfo.getElementsNumber());
+console.log('Number of DOM elements: ' + PageInfo.getElementsNumber());
