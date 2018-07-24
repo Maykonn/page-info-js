@@ -72,6 +72,12 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageIn
 - PageInfoJS.EventsList.DOM.ElementLoaded
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
+- PageInfoJS.DocumentReadyStateChanged.Any (when changed ready state changed for any state)
+- PageInfoJS.DocumentReadyStateChanged.ToUninitialized
+- PageInfoJS.DocumentReadyStateChanged.ToLoading
+- PageInfoJS.DocumentReadyStateChanged.ToLoaded
+- PageInfoJS.DocumentReadyStateChanged.ToInteractive
+- PageInfoJS.DocumentReadyStateChanged.ToComplete
 
 And pass the callbacks array for the PageInfoJS instance:
 
@@ -81,24 +87,38 @@ var PageInfo = new PageInfoJS(myCallbacks);
 
 ## Working with timestamps
 
-Getting the start timestamp of the DOM loading:
+Getting the loading start timestamp:
 
 ```JS
 var timestamp = PageInfo.Time.getStartTimestamp();  
 console.log('PageInfoJS start timestamp:', timestamp);
 ```
 
-Getting timestamp of the moment the DOM loading ends:
+Getting the current timestamp:
 ```JS
-var timestamp = PageInfo.Time.getDOMLoadedTimestamp();  
-console.log('PageInfoJS DOM loading ends at:', timestamp);
+var timestamp = PageInfo.Time.getCurrentTimestamp();  
+console.log('PageInfoJS current timestamp:', timestamp);
 ```
 
-Milliseconds expended to load the DOM:
+Elapsed time in milliseconds:
 ```JS
-var time = PageInfo.Time.getElapsedTimeToLoadDOM();  
-console.log('PageInfoJS DOM loaded in (milliseconds):', time);
+var time = PageInfo.Time.getElapsedTime();  
+console.log('PageInfoJS elapsed time (milliseconds):', time);
 ```
+
+With these time methods you can know when the page becomes `Interactive` and the elapsed time for that:
+```JS
+/**  
+ * @param element {HTMLElement}  
+ * @param PageInfo {PageInfo}  
+ */
+myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToInteractive] = function (element, PageInfo) {  
+  console.log('Document is Interactive now, elapsed time (milliseconds)', PageInfo.Time.getElapsedTime());  
+  console.log('Document is Interactive now, timestamp', PageInfo.Time.getCurrentTimestamp());  
+};
+```
+
+**You can use `Time` methods with any [custom callback.](https://github.com/Maykonn/PageInfoJS#working-with-custom-callbacks)**
 
 ## Compiling the code
 Clone this repo and you can use npm and webpack to compile the code.
