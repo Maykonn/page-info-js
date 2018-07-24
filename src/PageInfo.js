@@ -1,4 +1,4 @@
-import InternalDOMEventsList from "./EventsList";
+import InternalEventsList from "./EventsList";
 import Time from "./Time";
 import EventsCollection from "./EventsCollection";
 
@@ -9,9 +9,56 @@ export default class PageInfo {
      * @type {PageInfoTime}
      */
     this.Time = new Time();
+    this.errors = [];
+    this._Events = new EventsCollection(clientCallbacks);
+
+    window.document.onreadystatechange = () => {
+      if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.Any)) {
+        this._Events.get(InternalEventsList.DocumentReadyStateChanged.Any)(this, window.document.readyState);
+      }
+
+      switch (window.document.readyState) {
+        case 'uninitialized':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)(this);
+          }
+          break;
+        case 'loading':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoading)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoading)(this);
+          }
+          break;
+        case 'loaded':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoaded)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoaded)(this);
+          }
+          break;
+        case 'interactive':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToInteractive)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToInteractive)(this);
+          }
+          break;
+        case 'complete':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToComplete)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToComplete)(this);
+          }
+          break;
+      }
+    };
+
+    window.onerror = (error, url, line) => {
+      this.errors.push({
+        error: error,
+        url: url,
+        line: line
+      });
+
+      if (this._Events.has(InternalEventsList.OnError)) {
+        this._Events.get(InternalEventsList.OnError)(this);
+      }
+    };
 
     new Promise((resolve) => {
-      this._Events = new EventsCollection(clientCallbacks);
       this._elements = window.document.getElementsByTagName('*');
       this._elementsNumber = this._elements.length;
       resolve();
@@ -44,8 +91,8 @@ export default class PageInfo {
     let self = this;
 
     let doneLoading = () => {
-      if (self._Events.has(InternalDOMEventsList.DOM.AllElementsLoaded)) {
-        self._Events.get(InternalDOMEventsList.DOM.AllElementsLoaded)(self);
+      if (self._Events.has(InternalEventsList.DOM.AllElementsLoaded)) {
+        self._Events.get(InternalEventsList.DOM.AllElementsLoaded)(self);
       }
     };
 
@@ -56,13 +103,13 @@ export default class PageInfo {
     let elementLoaded = (element) => {
       self._loadedElementsNumber += 1;
 
-      if (self._Events.has(InternalDOMEventsList.DOM.ElementLoaded)) {
-        self._Events.get(InternalDOMEventsList.DOM.ElementLoaded)(element, self);
+      if (self._Events.has(InternalEventsList.DOM.ElementLoaded)) {
+        self._Events.get(InternalEventsList.DOM.ElementLoaded)(element, self);
       }
 
-      if (self._Events.has(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)) {
+      if (self._Events.has(InternalEventsList.DOM.ElementsLoadingPercentageIncremented)) {
         const percentageLoaded = ((100 / self._elementsNumber * self._loadedElementsNumber) << 0);
-        self._Events.get(InternalDOMEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element, self);
+        self._Events.get(InternalEventsList.DOM.ElementsLoadingPercentageIncremented)(percentageLoaded, element, self);
       }
 
       if (self._loadedElementsNumber === self._elementsNumber) {
@@ -75,6 +122,12 @@ export default class PageInfo {
         return elementLoaded(self._elements[i]);
       };
 
+      let callback2 = (a, b) => {
+        console.log('TEST A', a);
+        console.log('TEST B', b);
+        return elementLoaded(self._elements[i]);
+      };
+
       switch (self._elements[i].tagName) {
         case 'BODY':
           self._elements[i].onload = callback;
@@ -83,13 +136,34 @@ export default class PageInfo {
           let TempImage = new Image();
           TempImage.onload = callback;
           TempImage.onerror = callback;
+          //TempImage.onreadystatechange = callback2;
           TempImage.src = self._elements[i].src;
+
+          /*const imageIsCompletelyLoaded = (Image) => {
+            Image.src = self._elements[i].src;
+            setTimeout(() => {
+              if(Image.complete) {
+                return true;
+              }
+            }, 100);
+          };
+
+          imageIsCompletelyLoaded(TempImage);*/
+
           break;
         default:
           callback(self._elements[i]);
           break;
       }
     }
+  }
+
+  hasErrors() {
+    return (this.errors.length > 0);
+  }
+
+  getAllErrors() {
+    return this.errors;
   }
 
 }
