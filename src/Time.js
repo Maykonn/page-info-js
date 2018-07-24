@@ -3,12 +3,6 @@ export default class PageInfoTime {
   constructor() {
     const now = new Date();
     this._startTimestamp = now.getTime();
-    this._DOMLoadedTimestamp = 0; // DOM not loaded yet
-    this._elapsedTimeToLoadDOM = 0;  // DOM not loaded yet
-
-    window.document.addEventListener('DOMContentLoaded', () => {
-      this._calculateElapsedTimeToLoadDOM();
-    }, false);
   }
 
   /**
@@ -21,26 +15,22 @@ export default class PageInfoTime {
   }
 
   /**
-   * Returns the timestamp when DOM loading finished.
-   *
-   * @returns {number} The number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the DOM Loaded date.
-   */
-  getDOMLoadedTimestamp() {
-    return this._DOMLoadedTimestamp;
-  }
-
-  /**
-   * Returns the milliseconds of execution needed to load the DOM.
+   * Returns the elapsed time in milliseconds until now
    *
    * @returns {number}
    */
-  getElapsedTimeToLoadDOM() {
-    return this._elapsedTimeToLoadDOM;
+  getElapsedTime() {
+    const now = new Date();
+    return now.getTime() - this._startTimestamp;
   }
 
-  _calculateElapsedTimeToLoadDOM() {
+  /**
+   * Returns the current timestamp
+   *
+   * @returns {number}
+   */
+  getCurrentTimestamp() {
     const now = new Date();
-    this._DOMLoadedTimestamp = now.getTime();
-    this._elapsedTimeToLoadDOM = this._DOMLoadedTimestamp - this._startTimestamp;
+    return now.getTime();
   }
 };
