@@ -68,10 +68,11 @@ myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageIn
 };
 ```
 
-**The possible events are:**
+**Events List:**
 - PageInfoJS.EventsList.DOM.ElementLoaded
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
+- PageInfoJS.EventsList.OnError
 - PageInfoJS.DocumentReadyStateChanged.Any (when changed ready state changed for any state)
 - PageInfoJS.DocumentReadyStateChanged.ToUninitialized
 - PageInfoJS.DocumentReadyStateChanged.ToLoading
@@ -119,6 +120,32 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToInteractive] = fun
 ```
 
 **You can use `Time` methods with any [custom callback.](https://github.com/Maykonn/PageInfoJS#working-with-custom-callbacks)**
+
+## Working with Errors
+
+PageInfoJS have a event triggered when an JS Error happen, you can use it as follow:
+```JS
+/**
+ * @param PageInfo {PageInfo}
+ * @param error {PageInfoError}
+ */
+myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
+  console.log('Current error:', error);
+};
+```
+
+Or with other events:
+```JS
+/**
+ * @param PageInfo {PageInfo}
+ * @param changedTo {string}
+ */
+myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (PageInfo, changedTo) {
+  console.log('Document ready state changed to `' + changedTo + '` after (milliseconds)', PageInfo.Time.getElapsedTime());
+  console.log('Document have errors?', PageInfo.hasErrors());
+  console.log('Document Errors', PageInfo.getAllErrors());
+};
+```
 
 ## Compiling the code
 Clone this repo and you can use npm and webpack to compile the code.

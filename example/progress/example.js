@@ -1,3 +1,5 @@
+import PageInfoError from "../../src/ErrorWrapper";
+
 /**
  * Your custom callback functions
  *
@@ -51,7 +53,7 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToComplete] = functi
 
 /**
  * @param PageInfo {PageInfo}
- * @param error {string}
+ * @param error {PageInfoError}
  */
 myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
   console.log('Current error:', error);
