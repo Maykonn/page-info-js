@@ -76,7 +76,7 @@ You can implement custom callbacks for the bellow events list:
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
 - PageInfoJS.EventsList.OnError
-- PageInfoJS.DocumentReadyStateChanged.Any (when changed ready state changed for any state)
+- PageInfoJS.DocumentReadyStateChanged.Any (when ready state changed for any state)
 - PageInfoJS.DocumentReadyStateChanged.ToUninitialized
 - PageInfoJS.DocumentReadyStateChanged.ToLoading
 - PageInfoJS.DocumentReadyStateChanged.ToLoaded
