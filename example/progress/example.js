@@ -37,7 +37,7 @@ myCallbacks[PageInfoJS.EventsList.DOM.AllElementsLoaded] = function (PageInfo) {
  * @param changedTo {string}
  */
 myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (PageInfo, changedTo) {
-  console.log('Document ready state changed to ' + changedTo + ' after (milliseconds)', PageInfo.Time.getElapsedTime());
+  console.log('Document ready state changed to `' + changedTo + '` after (milliseconds)', PageInfo.Time.getElapsedTime());
 };
 
 /**
@@ -45,18 +45,21 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (Pag
  */
 myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToComplete] = function (PageInfo) {
   console.log('Document is COMPLETE now, elapsed time (milliseconds)', PageInfo.Time.getElapsedTime());
+  console.log('Document have errors?', PageInfo.hasErrors());
+  console.log('Document Errors', PageInfo.getAllErrors());
 };
 
 /**
  * @param PageInfo {PageInfo}
+ * @param error {string}
  */
 myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
   console.log('Current error:', error);
-  if (PageInfo.hasErrors()) {
-    console.log('All errors: ', PageInfo.getAllErrors());
-  }
 };
 
 var PageInfo = new PageInfoJS(myCallbacks);
 console.log('Page load start timestamp', PageInfo.Time.getStartTimestamp());
 console.log('Number of DOM elements: ' + PageInfo.getElementsNumber());
+
+// Forcing an error:
+PageInfo.callingUndefinedMethodNow();

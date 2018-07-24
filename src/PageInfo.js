@@ -1,6 +1,7 @@
 import InternalEventsList from "./EventsList";
 import Time from "./Time";
 import EventsCollection from "./EventsCollection";
+import PageInfoError from "./ErrorWrapper";
 
 export default class PageInfo {
 
@@ -9,7 +10,7 @@ export default class PageInfo {
      * @type {PageInfoTime}
      */
     this.Time = new Time();
-    this.errors = [];
+    this.Errors = [];
     this._Events = new EventsCollection(clientCallbacks);
 
     window.document.onreadystatechange = () => {
@@ -46,15 +47,12 @@ export default class PageInfo {
       }
     };
 
-    window.onerror = (error, url, line) => {
-      this.errors.push({
-        error: error,
-        url: url,
-        line: line
-      });
+    window.onerror = (error, url, line, column, asString) => {
+      const ErrorWrapper = new PageInfoError(error, url, line, column, asString);
+      this.Errors.push(ErrorWrapper);
 
       if (this._Events.has(InternalEventsList.OnError)) {
-        this._Events.get(InternalEventsList.OnError)(this);
+        this._Events.get(InternalEventsList.OnError)(this, ErrorWrapper);
       }
     };
 
@@ -159,11 +157,11 @@ export default class PageInfo {
   }
 
   hasErrors() {
-    return (this.errors.length > 0);
+    return (this.Errors.length > 0);
   }
 
   getAllErrors() {
-    return this.errors;
+    return this.Errors;
   }
 
 }
