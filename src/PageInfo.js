@@ -42,6 +42,77 @@ export default class PageInfo {
     return this._loadedElementsNumber;
   }
 
+  hasErrors() {
+    return (this.Errors.length > 0);
+  }
+
+  getAllErrors() {
+    return this.Errors;
+  }
+
+  _errorObserver() {
+    window.onerror = (error, url, line, column, asString) => {
+      const ErrorWrapper = new PageInfoError(error, url, line, column, asString);
+      this.Errors.push(ErrorWrapper);
+
+      if (this._Events.has(InternalEventsList.OnError)) {
+        this._Events.get(InternalEventsList.OnError)(this, ErrorWrapper);
+      }
+    };
+  }
+
+  _readyStateObserver() {
+    window.document.onreadystatechange = () => {
+      if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.Any)) {
+        this._Events.get(InternalEventsList.DocumentReadyStateChanged.Any)(this, window.document.readyState);
+      }
+
+      switch (window.document.readyState) {
+        case 'uninitialized':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)(this);
+          }
+          break;
+        case 'loading':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoading)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoading)(this);
+          }
+          break;
+        case 'loaded':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoaded)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoaded)(this);
+          }
+          break;
+        case 'interactive':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToInteractive)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToInteractive)(this);
+          }
+          break;
+        case 'complete':
+          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToComplete)) {
+            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToComplete)(this);
+          }
+          break;
+      }
+    };
+  }
+
+  _mutationObserver() {
+    let mutationObservedCallback = (MutationsList) => {
+      // More than one mutation can occur, for example when attributes and content of a div element are changed
+      for (let Mutation of MutationsList) {
+        if (this._Events.has(InternalEventsList.DOM.MutationObserved)) {
+          this._Events.get(InternalEventsList.DOM.MutationObserved)(Mutation, this);
+        }
+      }
+    };
+
+    let targetNode = window.document.getElementsByTagName('body')[0];
+    let config = {attributes: true, childList: true, characterData: true, subtree: true};
+    let observeMutations = new MutationObserver(mutationObservedCallback);
+    observeMutations.observe(targetNode, config);
+  }
+
   _analyzeDOM() {
     let self = this;
 
@@ -92,76 +163,5 @@ export default class PageInfo {
           break;
       }
     }
-  }
-
-  hasErrors() {
-    return (this.Errors.length > 0);
-  }
-
-  getAllErrors() {
-    return this.Errors;
-  }
-
-  _readyStateObserver() {
-    window.document.onreadystatechange = () => {
-      if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.Any)) {
-        this._Events.get(InternalEventsList.DocumentReadyStateChanged.Any)(this, window.document.readyState);
-      }
-
-      switch (window.document.readyState) {
-        case 'uninitialized':
-          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)) {
-            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToUninitialized)(this);
-          }
-          break;
-        case 'loading':
-          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoading)) {
-            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoading)(this);
-          }
-          break;
-        case 'loaded':
-          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToLoaded)) {
-            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToLoaded)(this);
-          }
-          break;
-        case 'interactive':
-          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToInteractive)) {
-            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToInteractive)(this);
-          }
-          break;
-        case 'complete':
-          if (this._Events.has(InternalEventsList.DocumentReadyStateChanged.ToComplete)) {
-            this._Events.get(InternalEventsList.DocumentReadyStateChanged.ToComplete)(this);
-          }
-          break;
-      }
-    };
-  }
-
-  _errorObserver() {
-    window.onerror = (error, url, line, column, asString) => {
-      const ErrorWrapper = new PageInfoError(error, url, line, column, asString);
-      this.Errors.push(ErrorWrapper);
-
-      if (this._Events.has(InternalEventsList.OnError)) {
-        this._Events.get(InternalEventsList.OnError)(this, ErrorWrapper);
-      }
-    };
-  }
-
-  _mutationObserver() {
-    let mutationObservedCallback = (MutationsList) => {
-      // More than one mutation can occur, for example when attributes and content of a div element are changed
-      for (let Mutation of MutationsList) {
-        if (this._Events.has(InternalEventsList.DOM.MutationObserved)) {
-          this._Events.get(InternalEventsList.DOM.MutationObserved)(Mutation, this);
-        }
-      }
-    };
-
-    let targetNode = window.document.getElementsByTagName('body')[0];
-    let config = {attributes: true, childList: true, characterData: true, subtree: true};
-    let observeMutations = new MutationObserver(mutationObservedCallback);
-    observeMutations.observe(targetNode, config);
   }
 }
