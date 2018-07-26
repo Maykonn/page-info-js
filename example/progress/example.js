@@ -88,7 +88,6 @@ setTimeout(function () {
   }, 4000);
 }, 7000);
 
-
 // Forcing an error:
-//console.log('Simulating an javascript error to be captured by PageInfoJS custom callbacks');
-//PageInfo.callingUndefinedMethodNow();
+console.log('Simulating an javascript error to be captured by PageInfoJS custom callbacks');
+PageInfo.callingUndefinedMethodNow();
