@@ -48,7 +48,14 @@ close the `</body>` tag, or include your js script there.
 
 **You can find the compiled code on [package releases list](https://github.com/Maykonn/PageInfoJS/releases).**
 
-**See the files on /example directory for a simple real world example.**
+### Examples
+
+See the files on `/example` directory for a simple real world example.  
+To execute the example on your local browser, run:  
+
+`npm run start`
+
+Your browser will open `http://localhost:8080` automatically with the example (open your browser console and enjoy!).
 
 ## Working with custom callbacks
 
@@ -75,6 +82,7 @@ You can implement custom callbacks for the bellow events list:
 - PageInfoJS.EventsList.DOM.ElementLoaded
 - PageInfoJS.EventsList.DOM.ElementsLoadingPercentageIncremented
 - PageInfoJS.EventsList.DOM.AllElementsLoaded
+- PageInfoJS.EventsList.DOM.MutationObserved (when an attribute or content of a html element change on page after it loaded)
 - PageInfoJS.EventsList.OnError
 - PageInfoJS.DocumentReadyStateChanged.Any (when ready state changed for any state)
 - PageInfoJS.DocumentReadyStateChanged.ToUninitialized
@@ -150,10 +158,6 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (Pag
   console.log('Document Errors', PageInfo.getAllErrors());
 };
 ```
-
-## Examples
-
-You can see an example on `/example` directory.
 
 ## Compiling the code
 Clone this repo and you can use npm and webpack to compile the code.
