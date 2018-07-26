@@ -1,7 +1,7 @@
 {
   "name": "page-info-js",
   "homepage": "https://github.com/Maykonn/page-info-js",
-  "description": "Gather information about the DOM, loading time, page errors, and more with javascript.",
+  "description": "Gather information about the DOM, Loading Time, Errors, Mutations, and more (with Custom Callbacks) with Javascript.",
   "keywords": [
     "javascript",
     "analytics",
