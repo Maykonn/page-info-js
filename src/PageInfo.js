@@ -13,15 +13,20 @@ export default class PageInfo {
     this.Time = new Time();
     this.Errors = [];
     this._Events = new EventsCollection(clientCallbacks);
-    this._elements = window.document.getElementsByTagName('*');
-    this._elementsNumber = this._elements.length;
-    this._loadedElementsNumber = 0;
 
-    this._errorObserver();
-    this._readyStateObserver();
-    this._mutationObserver();
-    this._analyzeDOM();
+    new Promise((resolve) => {
+      this._elements = window.document.getElementsByTagName('*');
+      this._elementsNumber = this._elements.length;
+      this._loadedElementsNumber = 0;
 
+      this._errorObserver();
+      this._readyStateObserver();
+      this._mutationObserver();
+
+      resolve();
+    }).then(() => {
+      this._analyzeDOM();
+    });
   }
 
   /**
