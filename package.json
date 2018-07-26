@@ -1,5 +1,6 @@
 {
   "name": "page-info-js",
+  "homepage": "https://github.com/Maykonn/page-info-js",
   "description": "Gather information about the DOM, loading time, page errors, and more with javascript.",
   "keywords": [
     "javascript",
@@ -17,6 +18,10 @@
     "gz"
   ],
   "author": "Maykonn Welington Candido <maykonn@outlook.com> (https://github.com/Maykonn)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maykonn/page-info-js"
+  },
   "dependencies": {
     "es6-shim": "^0.35.3",
     "mutation-observer": "^1.0.3"
@@ -43,5 +48,5 @@
     "build": "webpack --config webpack.prod.config.js --progress"
   },
   "license": "MIT",
-  "version": "1.3.0"
+  "version": "1.3.0.1"
 }
