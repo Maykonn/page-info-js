@@ -2,6 +2,7 @@ import InternalEventsList from "./EventsList";
 import Time from "./Time";
 import EventsCollection from "./EventsCollection";
 import PageInfoError from "./ErrorWrapper";
+import "mutation-observer";
 
 export default class PageInfo {
 
@@ -55,6 +56,10 @@ export default class PageInfo {
         this._Events.get(InternalEventsList.OnError)(this, ErrorWrapper);
       }
     };
+
+
+    this._mutationObserver();
+
 
     new Promise((resolve) => {
       this._elements = window.document.getElementsByTagName('*');
@@ -164,4 +169,20 @@ export default class PageInfo {
     return this.Errors;
   }
 
+  _mutationObserver() {
+    let targetNode = window.document.getElementsByTagName('body')[0];
+    let config = {attributes: true, childList: true, characterData: true, subtree: true};
+
+    let mutationObservedCallback = (MutationsList) => {
+      // More than one mutation can occur, for example when attributes and content of a div element are changed
+      for (let Mutation of MutationsList) {
+        if (this._Events.has(InternalEventsList.DOM.MutationObserved)) {
+          this._Events.get(InternalEventsList.DOM.MutationObserved)(Mutation, this);
+        }
+      }
+    };
+
+    let observeMutations = new MutationObserver(mutationObservedCallback);
+    observeMutations.observe(targetNode, config);
+  }
 }

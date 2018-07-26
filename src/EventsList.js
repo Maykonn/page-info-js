@@ -4,6 +4,7 @@ export default {
     ElementLoaded: 'DOMElementLoaded',
     ElementsLoadingPercentageIncremented: 'DOMElementsLoadingPercentageIncremented',
     AllElementsLoaded: 'DOMAllElementsLoadedEventName',
+    MutationObserved: 'MutationObserved'
   },
   DocumentReadyStateChanged: {
     Any: 'ReadyStateChanged',

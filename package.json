@@ -18,7 +18,8 @@
   ],
   "author": "Maykonn Welington Candido <maykonn@outlook.com> (https://github.com/Maykonn)",
   "dependencies": {
-    "es6-shim": "^0.35.3"
+    "es6-shim": "^0.35.3",
+    "mutation-observer": "^1.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

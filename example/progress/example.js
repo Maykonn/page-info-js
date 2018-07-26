@@ -1,5 +1,3 @@
-import PageInfoError from "../../src/ErrorWrapper";
-
 /**
  * Your custom callback functions
  *
@@ -35,6 +33,22 @@ myCallbacks[PageInfoJS.EventsList.DOM.AllElementsLoaded] = function (PageInfo) {
 };
 
 /**
+ * @param Mutation {MutationRecord}
+ * @param PageInfo {PageInfo}
+ */
+myCallbacks[PageInfoJS.EventsList.DOM.MutationObserved] = function (Mutation, PageInfo) {
+  console.log('Mutation Observed after (milliseconds)', PageInfo.Time.getElapsedTime(), Mutation);
+  switch (Mutation.type) {
+    case 'childList':
+      console.log('A child node has been added or removed.');
+      break;
+    case 'attributes':
+      console.log('The ' + Mutation.attributeName + ' attribute was modified.');
+      break;
+  }
+};
+
+/**
  * @param PageInfo {PageInfo}
  * @param changedTo {string}
  */
@@ -63,5 +77,18 @@ var PageInfo = new PageInfoJS(myCallbacks);
 console.log('Page load start timestamp', PageInfo.Time.getStartTimestamp());
 console.log('Number of DOM elements: ' + PageInfo.getElementsNumber());
 
+// Forcing a fake dom change after some time like ads scripts does, will be captured by PageInfoJS custom callbacks:
+setTimeout(function () {
+  var body = document.getElementsByTagName('body')[0];
+  var ad = document.createElement('div');
+  ad.innerHTML = 'Simulating an ad appearing here after 7 seconds.';
+  body.insertBefore(ad, body.firstChild);
+  setTimeout(function () {
+    ad.innerHTML = 'Ad changed after 4 seconds from first ad appear.';
+  }, 4000);
+}, 7000);
+
+
 // Forcing an error:
-PageInfo.callingUndefinedMethodNow();
+//console.log('Simulating an javascript error to be captured by PageInfoJS custom callbacks');
+//PageInfo.callingUndefinedMethodNow();
