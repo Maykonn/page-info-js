@@ -11,7 +11,7 @@ var myCallbacks = [];
  * @param PageInfo {PageInfo}
  */
 myCallbacks[PageInfoJS.EventsList.DOM.ElementLoaded] = function (element, PageInfo) {
-  console.log('  >> Element loaded', element);
+  console.log('  >> Element loaded, elapsed time (milliseconds)', PageInfo.Time.getElapsedTime(), element);
   console.log('  >> Loaded elements', PageInfo.getLoadedElementsNumber());
 };
 
@@ -75,7 +75,7 @@ myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
 
 var PageInfo = new PageInfoJS(myCallbacks);
 console.log('Page load start timestamp', PageInfo.Time.getStartTimestamp());
-console.log('Number of DOM elements: ' + PageInfo.getElementsNumber());
+console.log('Number of DOM elements: ', PageInfo.getElementsNumber());
 
 // Forcing a fake dom change after some time like ads scripts does, will be captured by PageInfoJS custom callbacks:
 setTimeout(function () {
@@ -87,6 +87,7 @@ setTimeout(function () {
     ad.innerHTML = 'Ad changed after 4 seconds from first ad appear.';
   }, 4000);
 }, 7000);
+
 
 // Forcing an error:
 console.log('Simulating an javascript error to be captured by PageInfoJS custom callbacks');
