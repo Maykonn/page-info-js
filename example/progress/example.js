@@ -61,16 +61,15 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (Pag
  */
 myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToComplete] = function (PageInfo) {
   console.log('Document is COMPLETE now, elapsed time (milliseconds)', PageInfo.Time.getElapsedTime());
-  console.log('Document have errors?', PageInfo.hasErrors());
-  console.log('Document Errors', PageInfo.getAllErrors());
+  console.log('Document have errors?', PageInfo.hasErrors(), PageInfo.getAllErrors());
 };
 
 /**
  * @param PageInfo {PageInfo}
- * @param error {PageInfoError}
+ * @param e {Event || ErrorEvent}
  */
-myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
-  console.log('Current error:', error);
+myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, e) {
+  console.log('Error Detected (event timestamp):', PageInfo.Time.getCurrentTimestamp(), e);
 };
 
 var PageInfo = new PageInfoJS(myCallbacks);

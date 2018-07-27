@@ -1,17 +1,26 @@
 import InternalEventsList from "./EventsList";
 import Time from "./Time";
 import EventsCollection from "./EventsCollection";
-import PageInfoError from "./ErrorWrapper";
 import "mutation-observer";
 
 export default class PageInfo {
 
   constructor(clientCallbacks) {
     /**
+     * @type {Array}
+     */
+    this._errors = [];
+    this._errorObserver();
+
+    /**
      * @type {PageInfoTime}
      */
     this.Time = new Time();
-    this.Errors = [];
+
+    /**
+     * @type {EventsCollection}
+     * @private
+     */
     this._Events = new EventsCollection(clientCallbacks);
 
     new Promise((resolve) => {
@@ -19,7 +28,6 @@ export default class PageInfo {
       this._elementsNumber = this._elements.length;
       this._loadedElementsNumber = 0;
 
-      this._errorObserver();
       this._readyStateObserver();
       this._mutationObserver();
 
@@ -48,22 +56,21 @@ export default class PageInfo {
   }
 
   hasErrors() {
-    return (this.Errors.length > 0);
+    return (this._errors.length > 0);
   }
 
   getAllErrors() {
-    return this.Errors;
+    return this._errors;
   }
 
   _errorObserver() {
-    window.onerror = (error, url, line, column, asString) => {
-      const ErrorWrapper = new PageInfoError(error, url, line, column, asString);
-      this.Errors.push(ErrorWrapper);
-
-      if (this._Events.has(InternalEventsList.OnError)) {
-        this._Events.get(InternalEventsList.OnError)(this, ErrorWrapper);
+    let self = this;
+    window.addEventListener('error', (e) => {
+      self._errors.push(e);
+      if (self._Events.has(InternalEventsList.OnError)) {
+        self._Events.get(InternalEventsList.OnError)(self, e);
       }
-    };
+    }, true);
   }
 
   _readyStateObserver() {
@@ -160,7 +167,6 @@ export default class PageInfo {
         case 'IMG':
           let TempImage = new Image();
           TempImage.onload = callback;
-          TempImage.onerror = callback;
           TempImage.src = self._elements[i].src;
           break;
         default:

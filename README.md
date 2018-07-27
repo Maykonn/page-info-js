@@ -6,6 +6,7 @@ With PageInfoJS you can gather information about time to load the Document DOM a
 - A Javascript error detected,
 - DOM loading percentage changes,
 - Document is completely loaded(or interactive, loading, etc).
+- When a mutation happens on page(when a new element is created on page for example)
 
 You can work with information about time too:
 
@@ -134,19 +135,18 @@ myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.ToInteractive] = fun
 
 ## Working with Errors
 
-PageInfoJS fire an event when a js error occur on page, you can use it as follow:
+PageInfoJS fire an Event instance when a js error occur on page, you can use it as follow:
 ```JS
 /**
  * @param PageInfo {PageInfo}
- * @param error {PageInfoError}
+ * @param e {Event || ErrorEvent}
  */
-myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, error) {
-  console.log('Current error:', error);
-  console.log('At:', PageInfo.Time.getCurrentTimestamp());
+myCallbacks[PageInfoJS.EventsList.OnError] = function (PageInfo, e) {
+  console.log('Error Detected (event timestamp):', PageInfo.Time.getCurrentTimestamp(), e);
 };
 ```
 
-Or with other events:
+Or combined with other events too:
 ```JS
 /**
  * @param PageInfo {PageInfo}
@@ -154,8 +154,7 @@ Or with other events:
  */
 myCallbacks[PageInfoJS.EventsList.DocumentReadyStateChanged.Any] = function (PageInfo, changedTo) {
   console.log('Document ready state changed to `' + changedTo + '` after (milliseconds)', PageInfo.Time.getElapsedTime());
-  console.log('Document have errors?', PageInfo.hasErrors());
-  console.log('Document Errors', PageInfo.getAllErrors());
+  console.log('Document have errors?', PageInfo.hasErrors(), PageInfo.getAllErrors());
 };
 ```
 
