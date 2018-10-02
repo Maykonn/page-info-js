@@ -23,7 +23,7 @@ You can work with information about time too:
 Although you can use as a Node module PageInfo works with DOM, so you can use the package in your frontend app with your webpack configuration to compile the 
 PageInfoJS code together your app code. To install the module type:
 
-`npm instal -S page-info-js`
+`npm i page-info-js`
 
 Importing the package with ES6:
 ```JS
